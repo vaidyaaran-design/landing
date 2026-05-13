@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brown Heart — The Four Numbers That Predict Your Heart Attack</title>
+  <meta name="description" content="Your doctor ran a blood test. Cholesterol came back normal. These four numbers are what he did not check.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --maroon:      #8B0000;
+      --maroon-dark: #6B0000;
+      --charcoal:    #1C1C1E;
+      --cover-dark:  #180808;
+      --cream:       #FAF6F0;
+      --cream-dark:  #F0EBE3;
+      --near-white:  #F2E8E0;
+      --coral:       #E8897A;
+      --taupe:       #8B7355;
+      --border:      #E0D8D0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--charcoal);
+      color: var(--charcoal);
+      margin: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--charcoal);
+      padding: 24px 48px;
+    }
+    @media (max-width: 600px) { nav { padding: 20px 24px; } }
+
+    .wordmark {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1;
+      gap: 1px;
+    }
+    .wordmark-brown {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--near-white);
+    }
+    .wordmark-heart {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--coral);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--cover-dark);
+      padding: 64px 48px;
+    }
+    @media (max-width: 600px) { .hero { padding: 48px 24px; } }
+
+    .hero-inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 34px;
+      line-height: 1.18;
+      color: var(--near-white);
+      margin-bottom: 12px;
+    }
+    @media (max-width: 600px) { h1 { font-size: 26px; } }
+
+    .subheadline {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--coral);
+      margin-bottom: 32px;
+    }
+    @media (max-width: 600px) { .subheadline { font-size: 15px; } }
+
+    .hero-body {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.72;
+      color: var(--near-white);
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) { .hero-body { font-size: 13px; } }
+
+    .attribution {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 12px;
+      color: var(--taupe);
+    }
+
+    /* ── RULE ── */
+    .maroon-rule {
+      width: 30px;
+      height: 2px;
+      background: var(--maroon);
+      margin: 0 auto;
+    }
+
+    /* ── FORM SECTION ── */
+    .form-section {
+      background: var(--cream);
+      padding: 56px 48px;
+    }
+    @media (max-width: 600px) { .form-section { padding: 40px 24px; } }
+
+    .form-inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .form-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 14px 16px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--charcoal);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="email"]::placeholder { color: var(--taupe); }
+    input[type="email"]:focus { border-color: var(--maroon); }
+
+    button[type="submit"] {
+      width: 100%;
+      background: var(--maroon);
+      color: white;
+      border: none;
+      border-radius: 2px;
+      padding: 14px 28px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button[type="submit"]:hover { background: var(--maroon-dark); }
+    button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .privacy-line {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      color: var(--taupe);
+      text-align: center;
+    }
+
+    /* ── CONFIRMATION ── */
+    .confirmation {
+      display: none;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: var(--charcoal);
+      text-align: center;
+      padding: 16px 0;
+      line-height: 1.5;
+    }
+
+    .error-msg {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      color: #CC1111;
+      text-align: center;
+      display: none;
+    }
+
+    /* ── SOCIAL PROOF ── */
+    .social-proof {
+      background: var(--cream-dark);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .social-proof p {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--taupe);
+      line-height: 2;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal);
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .footer-wordmark {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin-bottom: 12px;
+    }
+
+    .footer-domain {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--taupe);
+      margin-bottom: 16px;
+    }
+
+    .footer-disclaimer {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      color: var(--taupe);
+      max-width: 480px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+
+    .footer-social {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      color: var(--taupe);
+      letter-spacing: 0.05em;
+    }
+    .footer-social a {
+      color: var(--taupe);
+      text-decoration: none;
+    }
+    .footer-social a:hover { color: var(--coral); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="wordmark">
+      <span class="wordmark-brown">BROWN</span>
+      <span class="wordmark-heart">Heart</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Free Guide &nbsp;·&nbsp; Brown Heart</div>
+      <h1>The Four Numbers That Predict Your Heart Attack</h1>
+      <div class="subheadline">Before Your Cholesterol Does</div>
+      <p class="hero-body">
+        Your doctor ran a blood test. Cholesterol came back normal. He said not to worry.<br><br>
+        These four numbers are what he did not check. They are what actually predicts heart attack risk in South Asian men — up to a decade before the standard panel moves. Enter your email and I will send you the guide now.
+      </p>
+      <div class="attribution">— Vaidya Aran, Cardiometabolic Physician</div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-section">
+    <div class="form-inner">
+      <div class="maroon-rule" style="margin-bottom: 40px;"></div>
+
+      <form id="capture-form" class="form-wrap" novalidate>
+        <input
+          type="email"
+          id="email-input"
+          name="email"
+          placeholder="Your email address"
+          autocomplete="email"
+          required
+        >
+        <button type="submit" id="submit-btn">Send Me The Guide</button>
+        <div class="privacy-line">No spam. One weekly email. Unsubscribe any time.</div>
+        <div class="error-msg" id="error-msg"></div>
+      </form>
+
+      <div class="confirmation" id="confirmation">
+        "Check your inbox. The guide is on its way. &nbsp;— Vaidya"
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section class="social-proof">
+    <p>Built for South Asian men in their 30s and 40s.</p>
+    <p>Written by a DHA-licensed cardiometabolic physician.</p>
+    <p>No generic Western advice. No cholesterol myths.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-wordmark wordmark">
+      <span class="wordmark-brown" style="color: var(--near-white);">BROWN</span>
+      <span class="wordmark-heart" style="color: var(--coral);">Heart</span>
+    </div>
+    <div class="footer-domain">thebrownheart.health</div>
+    <div class="footer-disclaimer">
+      Brown Heart is an AI-assisted health education brand. Content is reviewed by a DHA-licensed physician. For information only — not a substitute for medical advice.
+    </div>
+    <div class="footer-social">
+      <a href="https://tiktok.com/@thebrownheart" target="_blank" rel="noopener">TikTok @thebrownheart</a>
+      &nbsp;·&nbsp;
+      <a href="https://instagram.com/thebrownheart" target="_blank" rel="noopener">Instagram @thebrownheart</a>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('capture-form');
+    const emailInput = document.getElementById('email-input');
+    const submitBtn = document.getElementById('submit-btn');
+    const confirmation = document.getElementById('confirmation');
+    const errorMsg = document.getElementById('error-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+
+      const email = emailInput.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errorMsg.textContent = 'Please enter a valid email address.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          form.style.display = 'none';
+          confirmation.style.display = 'block';
+        } else {
+          throw new Error(data.error || 'Something went wrong. Please try again.');
+        }
+      } catch (err) {
+        errorMsg.textContent = err.message;
+        errorMsg.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Me The Guide';
+      }
+    });
+  </script>
+
+</body>
+</html>
