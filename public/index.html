@@ -185,6 +185,29 @@
       text-align: center;
     }
 
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .consent-row input[type="checkbox"] {
+      margin-top: 2px;
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      accent-color: var(--maroon);
+      cursor: pointer;
+    }
+    .consent-row label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      color: var(--taupe);
+      line-height: 1.6;
+      cursor: pointer;
+    }
+
     /* ── CONFIRMATION ── */
     .confirmation {
       display: none;
@@ -307,7 +330,11 @@
           required
         >
         <button type="submit" id="submit-btn">Send Me The Guide</button>
-        <div class="privacy-line">No spam. One weekly email. Unsubscribe any time.</div>
+        <div class="consent-row">
+          <input type="checkbox" id="newsletter-consent" name="newsletter_consent">
+          <label for="newsletter-consent">Yes, send me Vaidya's weekly email on heart health for South Asian men. I can unsubscribe any time.</label>
+        </div>
+        <div class="privacy-line">No spam. Unsubscribe any time.</div>
         <div class="error-msg" id="error-msg"></div>
       </form>
 
@@ -344,6 +371,7 @@
   <script>
     const form = document.getElementById('capture-form');
     const emailInput = document.getElementById('email-input');
+    const consentCheckbox = document.getElementById('newsletter-consent');
     const submitBtn = document.getElementById('submit-btn');
     const confirmation = document.getElementById('confirmation');
     const errorMsg = document.getElementById('error-msg');
@@ -366,7 +394,7 @@
         const res = await fetch('/api/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ email, newsletter_consent: consentCheckbox.checked }),
         });
 
         const data = await res.json();
