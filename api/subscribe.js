@@ -12,69 +12,25 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    await Promise.all([
-      addToBeehiiv(email),
-      sendPdfEmail(email),
-    ]);
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-    return res.status(200).json({ ok: true });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' });
-  }
-};
-
-async function addToBeehiiv(email) {
-  const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
-  const apiKey = process.env.BEEHIIV_API_KEY;
-
-  const response = await fetch(
-    `https://api.beehiiv.com/v2/publications/${publicationId}/subscriptions`,
-    {
-      method: 'POST',
+    await resend.emails.send({
+      from: 'Vaidya Aran | Brown Heart <onboarding@resend.dev>',
+      to: email,
+      subject: 'Your guide is here — and one thing before you read it',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
+        'X-Entity-Ref-ID': `brownheart-guide-${Date.now()}`,
       },
-      body: JSON.stringify({
-        email,
-        reactivate_existing: false,
-        send_welcome_email: false, // we send our own via Resend
-        utm_source: 'landing_page',
-      }),
-    }
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(`Beehiiv error: ${response.status} ${body}`);
-  }
-}
-
-async function sendPdfEmail(email) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
-  await resend.emails.send({
-    from: 'Vaidya Aran | Brown Heart <vaidya@thebrownheart.health>',
-    to: email,
-    subject: 'Your guide is here — and one thing before you read it',
-    headers: {
-      'X-Entity-Ref-ID': `brownheart-guide-${Date.now()}`,
-    },
-    html: `
+      html: `
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#F0ECE6;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F0ECE6;padding:40px 16px;">
     <tr>
       <td align="center">
         <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#FAF6F0;border-top:3px solid #8B0000;">
 
-          <!-- Header -->
           <tr>
             <td style="background:#1C1C1E;padding:24px 40px;">
               <div style="line-height:1;">
@@ -84,20 +40,12 @@ async function sendPdfEmail(email) {
             </td>
           </tr>
 
-          <!-- Body -->
           <tr>
             <td style="padding:40px 40px 32px;">
-              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">
-                Your guide is attached.
-              </p>
-              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">
-                Before you read it — one thing worth knowing. The four numbers in this guide are not exotic or experimental. They are standard blood tests. The problem is not that they do not exist. The problem is that nobody ordered them for you.
-              </p>
-              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">
-                Page 4 has a GP script — exact words you can say at your next appointment. That page alone is worth the ten minutes it takes to read the rest.
-              </p>
+              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">Your guide is attached.</p>
+              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">Before you read it — one thing worth knowing. The four numbers in this guide are not exotic or experimental. They are standard blood tests. The problem is not that they do not exist. The problem is that nobody ordered them for you.</p>
+              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">Page 4 has a GP script — exact words you can say at your next appointment. That page alone is worth the ten minutes it takes to read the rest.</p>
 
-              <!-- CTA button -->
               <table cellpadding="0" cellspacing="0" style="margin:28px 0;">
                 <tr>
                   <td style="background:#8B0000;border-radius:2px;">
@@ -108,22 +56,15 @@ async function sendPdfEmail(email) {
                 </tr>
               </table>
 
-              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">
-                Every week I send one email breaking down what is happening inside South Asian men's arteries and what to do about it. That is all this list is for.
-              </p>
+              <p style="margin:0 0 18px;font-size:14px;line-height:1.72;color:#1C1C1E;">Every week I send one email breaking down what is happening inside South Asian men's arteries and what to do about it. That is all this list is for.</p>
               <p style="margin:0;font-size:14px;font-style:italic;color:#1C1C1E;">— Vaidya</p>
             </td>
           </tr>
 
-          <!-- Footer -->
           <tr>
             <td style="background:#1C1C1E;padding:24px 40px;text-align:center;">
-              <p style="margin:0 0 8px;font-size:9px;color:#8B7355;letter-spacing:1px;">
+              <p style="margin:0;font-size:9px;color:#8B7355;letter-spacing:1px;">
                 Brown Heart &nbsp;·&nbsp; thebrownheart.health &nbsp;·&nbsp; @thebrownheart on TikTok and Instagram
-              </p>
-              <p style="margin:0;font-size:9px;color:#5A4840;line-height:1.6;">
-                You received this because you requested the free guide at thebrownheart.health.<br>
-                <a href="{{{unsubscribe}}}" style="color:#8B7355;">Unsubscribe</a>
               </p>
             </td>
           </tr>
@@ -134,6 +75,12 @@ async function sendPdfEmail(email) {
   </table>
 </body>
 </html>
-    `.trim(),
-  });
-}
+      `.trim(),
+    });
+
+    return res.status(200).json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Something went wrong. Please try again.' });
+  }
+};
