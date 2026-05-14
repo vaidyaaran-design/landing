@@ -5,7 +5,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email } = req.body;
+  const { email, newsletter_consent } = req.body;
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Valid email address required.' });
@@ -76,6 +76,18 @@ module.exports = async function handler(req, res) {
 </body>
 </html>
       `.trim(),
+    });
+
+    await fetch('https://api.kit.com/v4/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.KIT_API_KEY}`,
+      },
+      body: JSON.stringify({
+        email_address: email,
+        tags: [newsletter_consent ? 'newsletter-subscribed' : 'guide-only'],
+      }),
     });
 
     return res.status(200).json({ ok: true });
