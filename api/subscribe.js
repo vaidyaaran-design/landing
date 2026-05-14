@@ -79,19 +79,25 @@ module.exports = async function handler(req, res) {
     });
 
     try {
-      const kitRes = await fetch('https://api.kit.com/v4/subscribers', {
+      const kitHeaders = {
+        'Content-Type': 'application/json',
+        'X-Kit-Api-Key': process.env.KIT_API_KEY,
+      };
+
+      await fetch('https://api.kit.com/v4/subscribers', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.KIT_API_KEY}`,
-        },
-        body: JSON.stringify({
-          email_address: email,
-          tags: [newsletter_consent ? 'newsletter-subscribed' : 'guide-only'],
-        }),
+        headers: kitHeaders,
+        body: JSON.stringify({ email_address: email }),
       });
-      const kitData = await kitRes.json();
-      console.log('Kit response:', JSON.stringify(kitData));
+
+      const tagId = newsletter_consent ? 19576572 : 19576574;
+      const tagRes = await fetch(`https://api.kit.com/v4/tags/${tagId}/subscribers`, {
+        method: 'POST',
+        headers: kitHeaders,
+        body: JSON.stringify({ email_address: email }),
+      });
+      const tagData = await tagRes.json();
+      console.log('Kit tag response:', JSON.stringify(tagData));
     } catch (kitErr) {
       console.error('Kit error:', kitErr);
     }
