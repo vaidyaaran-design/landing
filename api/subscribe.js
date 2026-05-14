@@ -15,7 +15,7 @@ module.exports = async function handler(req, res) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
-      from: 'Vaidya Aran | Brown Heart <onboarding@resend.dev>',
+      from: 'Vaidya Aran | Brown Heart <aran@thebrownheart.health>',
       to: email,
       subject: 'Your guide is here — and one thing before you read it',
       headers: {
