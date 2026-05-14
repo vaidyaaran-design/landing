@@ -78,17 +78,23 @@ module.exports = async function handler(req, res) {
       `.trim(),
     });
 
-    await fetch('https://api.kit.com/v4/subscribers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.KIT_API_KEY}`,
-      },
-      body: JSON.stringify({
-        email_address: email,
-        tags: [newsletter_consent ? 'newsletter-subscribed' : 'guide-only'],
-      }),
-    });
+    try {
+      const kitRes = await fetch('https://api.kit.com/v4/subscribers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.KIT_API_KEY}`,
+        },
+        body: JSON.stringify({
+          email_address: email,
+          tags: [newsletter_consent ? 'newsletter-subscribed' : 'guide-only'],
+        }),
+      });
+      const kitData = await kitRes.json();
+      console.log('Kit response:', JSON.stringify(kitData));
+    } catch (kitErr) {
+      console.error('Kit error:', kitErr);
+    }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
